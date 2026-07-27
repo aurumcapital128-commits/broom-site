@@ -538,7 +538,7 @@
     </details>
     <details>
       <summary>What platforms are supported? <span class="chev">+</span></summary>
-      <p>Windows first — including native WSL2 virtual-disk compaction — because it's the least-served platform for this problem. macOS is next. Linux devs already live in a terminal; a CLI works fine for you today.</p>
+      <p>Windows first — including native WSL2 virtual-disk compaction — because it's the least-served platform for this problem. macOS is next in line, not an afterthought: <b>join now and you help decide when</b>. Linux devs already live in a terminal; a CLI works fine for you today.</p>
     </details>
   </div>
 </section>
@@ -625,6 +625,7 @@
 (function () {
   var form = document.getElementById('waitlist-form');
   var fine = document.getElementById('waitlist-fine');
+  var failCount = 0;
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var btn = form.querySelector('button');
@@ -647,7 +648,18 @@
     }).catch(function () {
       btn.disabled = false;
       btn.textContent = 'Get early access';
-      fine.textContent = 'Something went wrong — please try again in a moment.';
+      failCount++;
+      // Un solo fallo suele ser un hipo de red — "intenta de nuevo" basta.
+      // Dos fallos seguidos casi siempre son un bloqueador de anuncios o de
+      // privacidad silenciando la petición: reintentar no arreglará eso, así
+      // que a partir de aquí se ofrece una salida real por email directo.
+      if (failCount >= 2) {
+        fine.innerHTML = 'Still not going through — your browser or an ad-blocker ' +
+          'may be silencing the request. Email <a href="mailto:aurumcapital128@gmail.com?subject=Broom%20waitlist">' +
+          'aurumcapital128@gmail.com</a> instead and we’ll add you by hand.';
+      } else {
+        fine.textContent = 'Something went wrong — please try again in a moment.';
+      }
     });
   });
 })();
