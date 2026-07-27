@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The 9 places Claude Code, Docker &amp; WSL2 hide your gigabytes — Broom</title>
-<meta name="description" content="A field guide with the exact paths where AI coding agents, Docker, WSL2 and local models bury disk space — and the safe way to clean each one by hand. No purchase required.">
+<meta name="description" content="A field guide with the exact paths where AI coding agents, Docker, WSL2 and local models bury disk space, and the safe way to clean each one by hand. Nothing to buy.">
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="The 9 places Claude Code, Docker & WSL2 hide your gigabytes">
@@ -128,7 +128,7 @@
 <section class="wrap" id="p1">
   <div class="n-big">01</div>
   <h2><code>~/.claude/projects</code> — every agent session, kept forever</h2>
-  <p class="why">Claude Code saves a full transcript of every session, per project, and never expires them (<a href="https://github.com/anthropics/claude-code/issues/24207" target="_blank" rel="noopener">issue&nbsp;#24207</a>: no resource lifecycle management). Projects you abandoned months ago still hold every conversation. Transcripts are regenerable history — deleting old ones does not affect your code, your settings, or your agent's skills.</p>
+  <p class="why">Claude Code saves a full transcript of every session, per project, and never expires them (<a href="https://github.com/anthropics/claude-code/issues/24207" target="_blank" rel="noopener">issue&nbsp;#24207</a>: no resource lifecycle management). Projects you abandoned months ago still hold every conversation. Transcripts are regenerable history: deleting old ones does not affect your code, your settings, or your agent's skills.</p>
   <div class="label">Check the damage</div>
   <pre><span class="c"># Windows (PowerShell)</span>
 "{0:N1} GB" -f ((Get-ChildItem $env:USERPROFILE\.claude -Recurse -File -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum/1GB)
@@ -145,7 +145,7 @@ ls ~/.claude/projects
 <section class="wrap" id="p2">
   <div class="n-big">02</div>
   <h2><code>~/.claude/file-history</code> — the 300 GB folder</h2>
-  <p class="why">Every time the agent edits a file, the previous version is snapshotted here so edits can be reverted mid-session. It grows with every single edit, forever — the largest documented cases exceed <b>300 GB</b>. Your real version control is git; this internal history is disposable once a session is over. The same goes for its smaller siblings <code style="font-family:var(--mono)">shell-snapshots/</code>, <code style="font-family:var(--mono)">todos/</code> and <code style="font-family:var(--mono)">debug/</code>.</p>
+  <p class="why">Every time the agent edits a file, the previous version is snapshotted here so edits can be reverted mid-session. It grows with every single edit, forever. The largest documented cases exceed <b>300 GB</b>. Your real version control is git; this internal history is disposable once a session is over. The same goes for its smaller siblings <code style="font-family:var(--mono)">shell-snapshots/</code>, <code style="font-family:var(--mono)">todos/</code> and <code style="font-family:var(--mono)">debug/</code>.</p>
   <div class="label">Clean it safely</div>
   <pre><span class="c"># Close active Claude Code sessions first, then:</span>
 <span class="c"># Windows</span>
@@ -157,7 +157,7 @@ rm -rf ~/.claude/file-history/*</pre>
 <section class="wrap" id="p3">
   <div class="n-big">03</div>
   <h2><code>ext4.vhdx</code> — the disk that never shrinks</h2>
-  <p class="why">WSL2 and Docker Desktop store their entire Linux world inside a virtual disk file. It grows automatically when you add data — but <b>never shrinks when you delete data</b>. Free 40 GB inside Ubuntu and Windows still shows the same usage: the .vhdx stays as big as the biggest you've ever been. Storage Sense will never tell you this.</p>
+  <p class="why">WSL2 and Docker Desktop store their entire Linux world inside a virtual disk file. It grows automatically when you add data, but <b>never shrinks when you delete data</b>. Free 40 GB inside Ubuntu and Windows still shows the same usage: the .vhdx stays as big as the biggest you've ever been. Storage Sense will never tell you this.</p>
   <div class="label">Find your virtual disks</div>
   <pre><span class="c"># Windows (PowerShell) — lists every WSL/Docker vhdx with its size</span>
 Get-ChildItem "$env:LOCALAPPDATA\Packages","$env:LOCALAPPDATA\Docker" -Recurse -Filter *.vhdx -ErrorAction SilentlyContinue |
@@ -191,7 +191,7 @@ docker builder prune       <span class="c"># build cache (next build is slower, 
 <section class="wrap" id="p5">
   <div class="n-big">05</div>
   <h2>Orphaned <code>node_modules</code> — the classic, multiplied by agents</h2>
-  <p class="why">AI agents scaffold projects at a pace no human ever did — and abandon them the same way. Every abandoned experiment keeps its full dependency tree. On machines that run coding agents, <b>50–200 GB across dozens of forgotten node_modules is normal</b>. If the project has a lockfile, one <span style="font-family:var(--mono)">npm install</span> rebuilds everything identically — deleting the folder loses nothing.</p>
+  <p class="why">AI agents scaffold projects at a pace no human ever did, and they abandon them the same way. Every abandoned experiment keeps its full dependency tree. On machines that run coding agents, <b>50–200 GB across dozens of forgotten node_modules is normal</b>. If the project has a lockfile, one <span style="font-family:var(--mono)">npm install</span> rebuilds everything identically, so deleting the folder loses nothing.</p>
   <div class="label">Find them</div>
   <pre><span class="c"># The community standard (interactive, free):</span>
 npx npkill
@@ -202,7 +202,7 @@ npx npkill
 <section class="wrap" id="p6">
   <div class="n-big">06</div>
   <h2>Package manager caches — npm, pip, yarn</h2>
-  <p class="why">Download caches speed up installs. They also grow forever — multi-GB npm caches are routine on agent machines. Cleaning them breaks nothing: the next install simply downloads again. The one rule: <b>always use each tool's official command</b> — npm's cache is content-addressed and hand-deleting inside it corrupts the index.</p>
+  <p class="why">Download caches speed up installs. They also grow forever, and multi-GB npm caches are routine on agent machines. Cleaning them breaks nothing: the next install simply downloads again. The one rule is to <b>always use each tool's official command</b>, because npm's cache is content-addressed and hand-deleting inside it corrupts the index.</p>
   <div class="label">Clean them safely</div>
   <pre>npm cache clean --force
 pip cache purge
@@ -223,7 +223,7 @@ ollama rm llama3:latest    <span class="c"># re-pull any time with: ollama pull<
 <section class="wrap" id="p8">
   <div class="n-big">08</div>
   <h2>HuggingFace hub cache — <code>~/.cache/huggingface</code></h2>
-  <p class="why">Every <span style="font-family:var(--mono)">from_pretrained()</span> in every script you ever ran cached its full model here. It's pure cache — anything a script needs again re-downloads automatically — but it's often the single biggest folder on an ML machine. And if you also use Ollama or LM Studio, you may be storing <b>the same model 2–3 times</b> across tools.</p>
+  <p class="why">Every <span style="font-family:var(--mono)">from_pretrained()</span> in every script you ever ran cached its full model here. It's pure cache, and anything a script needs again re-downloads automatically. Even so, it's often the single biggest folder on an ML machine. And if you also use Ollama or LM Studio, you may be storing <b>the same model 2–3 times</b> across tools.</p>
   <div class="label">Check, then clean — official tool</div>
   <pre>pip install -U "huggingface_hub[cli]"
 huggingface-cli scan-cache          <span class="c"># shows every repo with size and last access</span>
@@ -233,7 +233,7 @@ huggingface-cli delete-cache        <span class="c"># interactive: pick what goe
 <section class="wrap" id="p9">
   <div class="n-big">09</div>
   <h2>LM Studio models &amp; desktop-agent VMs</h2>
-  <p class="why">LM Studio keeps models as plain files under <span style="font-family:var(--mono)">~/.lmstudio/models</span> — easy to forget (on our own dev machine we found an 8 GB model untouched for over a year). And a newer, sneakier one: desktop AI apps that run sandboxed agents (Claude Desktop and friends) ship <b>their own multi-GB virtual machines</b> under AppData, invisible to every cleaner.</p>
+  <p class="why">LM Studio keeps models as plain files under <span style="font-family:var(--mono)">~/.lmstudio/models</span>, which makes them easy to forget: on our own dev machine we found an 8 GB model untouched for over a year. And a newer, sneakier one: desktop AI apps that run sandboxed agents (Claude Desktop and friends) ship <b>their own multi-GB virtual machines</b> under AppData, invisible to every cleaner.</p>
   <div class="label">Check both</div>
   <pre><span class="c"># LM Studio: one folder per model — delete a folder, delete a model. That's it.</span>
 <span class="c"># Windows</span>

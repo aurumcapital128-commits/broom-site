@@ -589,7 +589,7 @@
       if (res.ok) {
         input.style.display = 'none';
         btn.style.display = 'none';
-        fine.textContent = "You're on the list — we'll email you when the beta opens.";
+        fine.textContent = "You're on the list. We'll email you when the beta opens.";
         fine.style.color = 'var(--mint)';
       } else {
         throw new Error('bad status ' + res.status);
@@ -603,11 +603,11 @@
       // privacidad silenciando la petición: reintentar no arreglará eso, así
       // que a partir de aquí se ofrece una salida real por email directo.
       if (failCount >= 2) {
-        fine.innerHTML = 'Still not going through — your browser or an ad-blocker ' +
-          'may be silencing the request. Email <a href="mailto:aurumcapital128@gmail.com?subject=Broom%20waitlist">' +
+        fine.innerHTML = 'Still not going through. Your browser or an ad-blocker ' +
+          'may be blocking the request. Email <a href="mailto:aurumcapital128@gmail.com?subject=Broom%20waitlist">' +
           'aurumcapital128@gmail.com</a> instead and we’ll add you by hand.';
       } else {
-        fine.textContent = 'Something went wrong — please try again in a moment.';
+        fine.textContent = 'Something went wrong. Please try again in a moment.';
       }
     });
   });
