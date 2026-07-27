@@ -9,12 +9,15 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="The 9 places Claude Code, Docker & WSL2 hide your gigabytes">
 <meta property="og:description" content="Real paths, official cleanup commands, no purchase required. The free field guide from Broom.">
-<meta property="og:image" content="og-card.png">
+<!-- Rutas ABSOLUTAS: X/Twitter y varios scrapers no resuelven og:image relativo -->
+<meta property="og:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:url" content="https://aurumcapital128-commits.github.io/broom-site/guide-9-places.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The 9 places Claude Code, Docker & WSL2 hide your gigabytes">
-<meta name="twitter:image" content="og-card.png">
+<meta name="twitter:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
+<link rel="canonical" href="https://aurumcapital128-commits.github.io/broom-site/guide-9-places.html">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111418'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='30' font-weight='700' fill='%233DDC97' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,6 +92,12 @@
     margin-top: 72px; padding: 30px 28px;
     background: var(--surface); border: 1px solid #2A323D; border-radius: var(--radius);
   }
+  .mini-cta {
+    margin-top: 18px; padding: 14px 18px;
+    background: rgba(61,220,151,0.06); border: 1px solid rgba(61,220,151,0.3); border-radius: var(--radius);
+    font-size: 15px; color: var(--muted);
+  }
+  .mini-cta b { color: var(--text); }
   .cta p { color: var(--muted); max-width: 60ch; }
   .cta p b { color: var(--text); }
   footer { margin-top: 64px; padding: 32px 0 56px; border-top: 1px solid #232A33; }
@@ -163,6 +172,7 @@ compact vdisk
 detach vdisk
 exit</pre>
   <div class="warn"><b>CAREFUL:</b> never delete a .vhdx — it IS your Linux system, not a cache. Compact only with WSL fully shut down. Docker Desktop has its own path: Settings → Resources → Disk usage, or clean inside Docker first (next section) so compaction has something to reclaim.</div>
+  <div class="mini-cta"><b>Broom automates this exact dance</b> — shutdown, compact, verify, every step logged. On our own dev machine it took a real WSL2 disk from 3.6 to 1.4 GB. <a href="index.html#waitlist">→ Get early access, free</a></div>
 </section>
 
 <section class="wrap" id="p4">
@@ -228,8 +238,10 @@ huggingface-cli delete-cache        <span class="c"># interactive: pick what goe
   <pre><span class="c"># LM Studio: one folder per model — delete a folder, delete a model. That's it.</span>
 <span class="c"># Windows</span>
 Get-ChildItem "$env:USERPROFILE\.lmstudio\models" -Recurse -Depth 2 | Select-Object FullName
+<span class="c"># macOS</span>
+du -sh ~/.lmstudio/models/*/*
 
-<span class="c"># Desktop-agent VMs (look, don't touch — uninstalling the app is the clean path)</span>
+<span class="c"># Desktop-agent VMs (Windows; look, don't touch — uninstalling the app is the clean path)</span>
 Get-ChildItem "$env:LOCALAPPDATA\Packages" -Recurse -Filter *.vhdx -ErrorAction SilentlyContinue |
   Select-Object @{n='GB';e={[math]::Round($_.Length/1GB,1)}}, FullName</pre>
   <div class="warn"><b>IN LM STUDIO, SKIP:</b> credentials/, conversations/ and config folders — only <span style="font-family:var(--mono)">models/</span> holds the gigabytes, and only models are safe to remove.</div>

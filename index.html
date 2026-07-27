@@ -10,14 +10,16 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Your AI agents are filling your disk. Broom gets it back.">
 <meta property="og:description" content="Dry-run by default. Real undo. Full audit trail. Free — validated on a real machine, not a demo.">
-<meta property="og:image" content="og-card.png">
+<!-- Rutas ABSOLUTAS: X/Twitter y varios scrapers no resuelven og:image relativo -->
+<meta property="og:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://aurumcapital128-commits.github.io/broom-site/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Your AI agents are filling your disk. Broom gets it back.">
 <meta name="twitter:description" content="Dry-run by default. Real undo. Full audit trail. Free.">
-<meta name="twitter:image" content="og-card.png">
+<meta name="twitter:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
+<link rel="canonical" href="https://aurumcapital128-commits.github.io/broom-site/">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111418'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='30' font-weight='700' fill='%233DDC97' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
 
@@ -368,7 +370,7 @@
 
 <main>
 <header class="hero wrap">
-  <div class="eyebrow-line"><span class="pulse"></span> For devs running Claude Code, Docker, WSL2, or a pile of local models</div>
+  <div class="eyebrow-line"><span class="pulse"></span> For devs running Claude Code, Docker, WSL2, local models — or agents overnight</div>
   <h1>Your AI agents are filling your disk.<br><span class="accent">Broom gets it back.</span></h1>
   <p class="sub">Claude Code transcripts, Docker layers, WSL2 disks that never shrink, Ollama and LM Studio models cached three times over — Storage Sense can't see any of it. Broom finds it, explains it, and gets it back, with a real undo button.</p>
 
@@ -392,8 +394,8 @@
       <div class="proof-label">found in one scan, real dev machine — not a mockup</div>
     </div>
     <div class="proof-pill">
-      <div class="proof-num">3.6 → 1.4 GB</div>
-      <div class="proof-label">an actual WSL2 disk, compacted end-to-end. Nobody else does this.</div>
+      <div class="proof-num"><a href="guide-9-places.html#p3">3.6 → 1.4 GB</a></div>
+      <div class="proof-label">an actual WSL2 disk, compacted end-to-end. Nobody else does this — <a href="guide-9-places.html#p3">see how</a>.</div>
     </div>
     <div class="proof-pill">
       <div class="proof-num"><a href="https://github.com/anthropics/claude-code/issues/24207" target="_blank" rel="noopener">#24207</a></div>
@@ -533,6 +535,10 @@
       <p>Nothing is ever deleted directly. Everything goes to Broom's own trash with a manifest first, restorable byte-for-byte for 7 days. A circuit breaker also aborts and auto-restores if a cleanup deviates more than 20% from what the dry-run promised.</p>
     </details>
     <details>
+      <summary>Can Broom run while my agents are working? <span class="chev">+</span></summary>
+      <p>That's exactly what the Pro monitor is for: it watches disk pressure in the background and warns you <b style="color:var(--text)">before</b> a long overnight run hits a full disk and dies. Cleanup itself never happens behind your back — it only runs when you (or a schedule you set) trigger it, against a plan you can dry-run first.</p>
+    </details>
+    <details>
       <summary>Do you collect telemetry? <span class="chev">+</span></summary>
       <p>Zero, by default. No usage data leaves your machine unless you explicitly opt in to something we document first. This is a disk tool for people who already don't trust software with their files.</p>
     </details>
@@ -549,6 +555,8 @@
     <h2>Join the waitlist</h2>
     <p class="lede">Beta invites go out in order. Early testers get the Pro tier free for a year.</p>
     <form id="waitlist-form" action="https://formspree.io/f/mykrljop" method="POST">
+      <!-- Honeypot de Formspree: los bots lo rellenan, los humanos no lo ven -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
       <input type="email" name="email" required placeholder="you@yourmachine.dev" aria-label="Email address">
       <button type="submit" class="btn btn-primary">Get early access</button>
     </form>
@@ -565,6 +573,7 @@
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="#waitlist">Waitlist</a>
+      <a href="mailto:aurumcapital128@gmail.com?subject=Broom">Contact</a>
     </div>
   </div>
   <p class="slogan"><b>The Broom promise:</b> we tell you the truth about your disk — even when the truth is that you don't need us today.</p>
