@@ -119,7 +119,7 @@
 <section class="wrap" id="p1">
   <div class="n-big">01</div>
   <h2><code>~/.claude/projects</code> — every agent session, kept forever</h2>
-  <p class="why">Claude Code saves a full transcript of every session, per project, and never expires them (<a href="https://github.com/anthropics/claude-code/issues/24207" rel="noopener">issue&nbsp;#24207</a>: no resource lifecycle management). Projects you abandoned months ago still hold every conversation. Transcripts are regenerable history — deleting old ones does not affect your code, your settings, or your agent's skills.</p>
+  <p class="why">Claude Code saves a full transcript of every session, per project, and never expires them (<a href="https://github.com/anthropics/claude-code/issues/24207" target="_blank" rel="noopener">issue&nbsp;#24207</a>: no resource lifecycle management). Projects you abandoned months ago still hold every conversation. Transcripts are regenerable history — deleting old ones does not affect your code, your settings, or your agent's skills.</p>
   <div class="label">Check the damage</div>
   <pre><span class="c"># Windows (PowerShell)</span>
 "{0:N1} GB" -f ((Get-ChildItem $env:USERPROFILE\.claude -Recurse -File -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum/1GB)
@@ -239,7 +239,7 @@ Get-ChildItem "$env:LOCALAPPDATA\Packages" -Recurse -Filter *.vhdx -ErrorAction 
   <div class="cta">
     <h2>Or let Broom do all nine — with seatbelts</h2>
     <p style="margin-top:12px">Everything above, automated: deterministic detection, dry-run by default, every deletion goes to a restorable trash with 7-day undo, and an audit log of every byte. <b>If your machine is clean, Broom says so and asks you for nothing.</b></p>
-    <p style="margin-top:14px"><a href="index.html">→ Join the waitlist</a></p>
+    <p style="margin-top:14px"><a href="index.html#waitlist">→ Join the waitlist</a></p>
   </div>
 </section>
 
