@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broom — Your AI agents are filling your disk. Get it back.</title>
+<meta name="description" content="Claude Code, Docker, WSL2 and local models bury gigabytes where Storage Sense can't see. Broom finds them, explains them, and reclaims them — with dry-run, undo and a full audit trail.">
+<style>
+  :root {
+    --bg: #111418;
+    --surface: #1A1F26;
+    --surface-2: #232A33;
+    --text: #E8ECF1;
+    --muted: #8B95A3;
+    --mint: #3DDC97;
+    --amber: #E8B44C;
+    --radius: 8px;
+    --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--mint); text-decoration: none; }
+  a:hover, a:focus-visible { text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Hero ---------- */
+  header { padding: 88px 0 56px; }
+  .brand {
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 48px;
+  }
+  .brand b { color: var(--text); font-weight: 600; }
+  h1 {
+    font-size: clamp(30px, 5.2vw, 46px);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    max-width: 20ch;
+  }
+  h1 .accent { color: var(--mint); }
+  .sub {
+    margin-top: 20px;
+    max-width: 56ch;
+    color: var(--muted);
+    font-size: 18px;
+  }
+  .sub strong { color: var(--text); font-weight: 600; }
+
+  /* ---------- Terminal (signature) ---------- */
+  .term {
+    margin: 48px 0 0;
+    background: var(--surface);
+    border: 1px solid #2A323D;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-bottom: 1px solid #2A323D;
+  }
+  .dot { width: 11px; height: 11px; border-radius: 50%; background: #3A434F; }
+  .term-title { margin-left: 8px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .term-body {
+    padding: 20px 18px 24px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.75;
+    min-height: 330px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .t-cmd { color: var(--text); }
+  .t-prompt { color: var(--mint); }
+  .t-rule { color: var(--muted); }
+  .t-size { color: var(--mint); font-weight: 600; }
+  .t-note { color: var(--muted); }
+  .t-amber { color: var(--amber); }
+  .t-total { color: var(--text); font-weight: 600; }
+  .cursor {
+    display: inline-block; width: 8px; height: 16px;
+    background: var(--mint); vertical-align: -2px;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { animation: none; }
+  }
+
+  /* ---------- Sections ---------- */
+  section { padding: 72px 0 0; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  h2 { font-size: clamp(22px, 3.4vw, 30px); letter-spacing: -0.01em; line-height: 1.25; max-width: 26ch; }
+  .lede { margin-top: 14px; color: var(--muted); max-width: 62ch; }
+  .lede strong { color: var(--text); }
+
+  .guarantees { margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 700px) { .guarantees { grid-template-columns: 1fr; } }
+  .g {
+    background: var(--surface);
+    border: 1px solid #2A323D;
+    border-radius: var(--radius);
+    padding: 22px 20px;
+  }
+  .g h3 { font-family: var(--mono); font-size: 14px; color: var(--mint); font-weight: 600; margin-bottom: 8px; }
+  .g p { font-size: 15px; color: var(--muted); }
+  .g p b { color: var(--text); font-weight: 600; }
+
+  .hiding { margin-top: 36px; border-top: 1px solid #2A323D; }
+  .hide-row {
+    display: grid; grid-template-columns: minmax(180px, 260px) 1fr;
+    gap: 18px; padding: 14px 0;
+    border-bottom: 1px solid #232A33;
+    font-size: 15px;
+  }
+  @media (max-width: 600px) { .hide-row { grid-template-columns: 1fr; gap: 4px; } }
+  .hide-row code { font-family: var(--mono); font-size: 13.5px; color: var(--text); }
+  .hide-row span { color: var(--muted); }
+  .hide-row span b { color: var(--amber); font-weight: 600; font-family: var(--mono); }
+
+  /* ---------- Waitlist ---------- */
+  .cta-box {
+    margin-top: 40px;
+    background: var(--surface);
+    border: 1px solid #2A323D;
+    border-radius: var(--radius);
+    padding: 34px 30px;
+  }
+  .cta-box h2 { max-width: none; }
+  form { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+  input[type="email"] {
+    flex: 1; min-width: 240px;
+    background: var(--bg);
+    border: 1px solid #2A323D;
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 15px;
+    padding: 13px 16px;
+  }
+  input[type="email"]::placeholder { color: #55606E; }
+  button {
+    background: var(--mint);
+    color: #0B1210;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 13px 22px;
+    cursor: pointer;
+  }
+  button:hover { filter: brightness(1.08); }
+  button:disabled { opacity: 0.7; cursor: default; }
+  .fine { margin-top: 12px; font-size: 13.5px; color: var(--muted); }
+
+  footer {
+    margin-top: 88px;
+    padding: 36px 0 56px;
+    border-top: 1px solid #232A33;
+  }
+  .slogan { font-family: var(--mono); font-size: 13.5px; color: var(--muted); max-width: 60ch; }
+  .slogan b { color: var(--text); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="brand"><b>broom</b> · disk hygiene for machines that run AI agents</div>
+  <h1>Your AI agents are filling your disk.<br><span class="accent">Broom gets it back.</span></h1>
+  <p class="sub">Claude Code transcripts, Docker layers, WSL2 disks that never shrink, model caches duplicated across three tools. <strong>Storage Sense can't see any of it.</strong> Broom finds it, explains it, and reclaims it — with an undo button.</p>
+
+  <div class="term" aria-label="Broom scan demo">
+    <div class="term-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="term-title">broom — scan</span>
+    </div>
+    <div class="term-body" id="term"><span class="t-prompt">$</span> <span class="t-cmd"></span><span class="cursor" id="cur"></span></div>
+  </div>
+</header>
+
+<section class="wrap" id="guarantees">
+  <div class="eyebrow">Not another "PC cleaner"</div>
+  <h2>Three guarantees, or it doesn't ship</h2>
+  <p class="lede">The cleaner category earned its bad reputation: fake urgency, red alerts, registry snake oil. Broom is built as the opposite. <strong>If your machine is clean, it says so — and asks you for nothing.</strong></p>
+  <div class="guarantees">
+    <div class="g">
+      <h3>dry-run by default</h3>
+      <p>Every action shows the <b>exact plan</b> first — paths, sizes, method. Nothing executes without your explicit confirmation.</p>
+    </div>
+    <div class="g">
+      <h3>undo, for real</h3>
+      <p>Nothing is deleted. Files move to Broom's own staging with a manifest. <b>One click restores everything, byte for byte, for 7 days.</b></p>
+    </div>
+    <div class="g">
+      <h3>full audit trail</h3>
+      <p>Every byte removed is logged: what, when, and <b>which rule decided it</b>. Ask <code style="font-family: var(--mono)">broom explain</code> about any decision, ever.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="hiding">
+  <div class="eyebrow">The free guide</div>
+  <h2>The 9 places Claude Code, Docker &amp; WSL2 hide your gigabytes</h2>
+  <p class="lede">A field guide with the exact paths and the safe way to clean each one by hand — no purchase required. Broom just does it for you, with seatbelts. A preview:</p>
+  <div class="hiding">
+    <div class="hide-row"><code>~/.claude/file-history</code><span>Old versions of every file your agent touched. Documented cases up to <b>300 GB</b>. Your real version control is git.</span></div>
+    <div class="hide-row"><code>ext4.vhdx</code><span>WSL2 and Docker Desktop virtual disks grow forever and <b>never shrink on their own</b> — deleting files inside doesn't return space to Windows.</span></div>
+    <div class="hide-row"><code>~/.ollama · ~/.cache/huggingface</code><span>The same model, stored <b>2–3 times</b> by different tools. 26 GB per duplicate is normal.</span></div>
+    <div class="hide-row"><code>node_modules/ ×47</code><span>Every project your agent scaffolded and abandoned keeps its full dependency tree. <b>50–200 GB</b> is a common reclaim.</span></div>
+  </div>
+  <p class="fine">The full guide (all 9, with commands) goes to the waitlist first.</p>
+</section>
+
+<section class="wrap">
+  <div class="cta-box">
+    <div class="eyebrow">Early access · Windows &amp; macOS</div>
+    <h2>Join the waitlist</h2>
+    <p class="lede">Beta invites go out in order. Early testers get the Pro tier free for a year.</p>
+    <form id="waitlist-form" action="https://formspree.io/f/mykrljop" method="POST">
+      <input type="email" name="email" required placeholder="you@yourmachine.dev" aria-label="Email address">
+      <button type="submit">Get early access</button>
+    </form>
+    <p class="fine" id="waitlist-fine">No spam. One email when the beta opens, one when we launch. That's it.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="slogan"><b>The Broom promise:</b> we tell you the truth about your disk — even when the truth is that you don't need us today.</p>
+</footer>
+
+<script>
+(function () {
+  var term = document.getElementById('term');
+  var cur = document.getElementById('cur');
+  var cmdSpan = term.querySelector('.t-cmd');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var cmd = 'broom scan';
+  var lines = [
+    ['html', '<span class="t-total">87.4 GB reclaimable in 23 artifacts</span>\n\n'],
+    ['html', '  <span class="t-rule">[wsl2.vhdx.unshrunk]</span>      <span class="t-size">41.2 GB</span>  C:\\Users\\dev\\AppData\\...\\ext4.vhdx\n  <span class="t-note">Deleted files inside WSL2 never returned this space to Windows.</span>\n\n'],
+    ['html', '  <span class="t-rule">[models.duplicate]</span>        <span class="t-size">26.0 GB</span>  ~/.cache/huggingface/hub/llama-3.3-70b\n  <span class="t-note">Same model also in Ollama. Keeping one copy, via official CLI.</span>\n\n'],
+    ['html', '  <span class="t-rule">[claude.file-history]</span>     <span class="t-size">11.8 GB</span>  ~/.claude/file-history\n  <span class="t-note">Old versions of files your agent edited. Your real VCS is git.</span>\n\n'],
+    ['html', '  <span class="t-rule">[node.orphaned]</span>            <span class="t-size">8.4 GB</span>  ~/dev/scaffold-test-v2/node_modules\n  <span class="t-note">No commits in 74 days. The lockfile can rebuild all of it.</span>\n\n'],
+    ['html', '  <span class="t-amber">VETOED</span>  <span class="t-note">~/.claude/skills — protected: you built this. Broom never touches it.</span>\n\n'],
+    ['html', '<span class="t-note">Next: `broom clean` (dry-run) → `broom clean --commit` → undo any time for 7 days.</span>']
+  ];
+
+  function renderAll() {
+    cmdSpan.textContent = cmd;
+    var html = term.innerHTML.replace(/<span class="cursor"[^>]*><\/span>/, '');
+    lines.forEach(function (l) { html += l[1]; });
+    term.innerHTML = html;
+  }
+
+  if (reduced) { renderAll(); return; }
+
+  var i = 0;
+  function typeCmd() {
+    if (i < cmd.length) {
+      cmdSpan.textContent += cmd[i++];
+      setTimeout(typeCmd, 55);
+    } else {
+      setTimeout(printLines, 500);
+    }
+  }
+  var j = 0;
+  function printLines() {
+    if (j === 0) { cur.remove(); term.innerHTML += '\n'; }
+    if (j < lines.length) {
+      term.innerHTML += lines[j][1];
+      j++;
+      setTimeout(printLines, j === 1 ? 620 : 460);
+    }
+  }
+  setTimeout(typeCmd, 600);
+})();
+</script>
+
+<script>
+(function () {
+  var form = document.getElementById('waitlist-form');
+  var fine = document.getElementById('waitlist-fine');
+  var defaultFine = fine.textContent;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = form.querySelector('button');
+    var input = form.querySelector('input[type=email]');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    }).then(function (res) {
+      if (res.ok) {
+        input.style.display = 'none';
+        btn.style.display = 'none';
+        fine.textContent = "You're on the list — we'll email you when the beta opens.";
+        fine.style.color = 'var(--mint)';
+      } else {
+        throw new Error('bad status ' + res.status);
+      }
+    }).catch(function () {
+      btn.disabled = false;
+      btn.textContent = 'Get early access';
+      fine.textContent = 'Something went wrong — please try again in a moment.';
+    });
+  });
+})();
+</script>
+</body>
+</html>
