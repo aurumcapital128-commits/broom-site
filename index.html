@@ -99,7 +99,9 @@
   @media (max-width: 680px) { .nav-links a:not(.nav-cta) { display: none; } }
 
   /* ---------- Hero ---------- */
-  header.hero { padding: 76px 0 8px; }
+  /* Solo padding vertical: el horizontal lo pone .wrap (el shorthand lo pisaba
+     por especificidad y el hero quedaba pegado al borde, desalineado 24px) */
+  header.hero { padding-top: 76px; padding-bottom: 8px; }
   .eyebrow-line {
     font-family: var(--mono); font-size: 13px; color: var(--muted);
     margin-bottom: 26px;
