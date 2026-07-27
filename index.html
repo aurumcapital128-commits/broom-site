@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Broom — Your AI agents are filling your disk. Get it back.</title>
-<meta name="description" content="Claude Code, Docker, WSL2 and local models bury gigabytes where Storage Sense can't see. Broom finds them, explains them, and reclaims them — with dry-run, undo and a full audit trail. Free.">
+<meta name="description" content="Broom finds the gigabytes that Claude Code, Docker, WSL2 and local models bury where Storage Sense can't see, and reclaims them with a dry-run, an undo button and a full audit log. Free for manual cleanup.">
 
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Your AI agents are filling your disk. Broom gets it back.">
-<meta property="og:description" content="Dry-run by default. Real undo. Full audit trail. Free — validated on a real machine, not a demo.">
+<meta property="og:description" content="Finds and reclaims the disk space that AI dev tools bury, with a dry-run, a real undo and a full audit log. Free for manual cleanup.">
 <!-- Rutas ABSOLUTAS: X/Twitter y varios scrapers no resuelven og:image relativo -->
 <meta property="og:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://aurumcapital128-commits.github.io/broom-site/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Your AI agents are filling your disk. Broom gets it back.">
-<meta name="twitter:description" content="Dry-run by default. Real undo. Full audit trail. Free.">
+<meta name="twitter:description" content="Finds and reclaims the disk space AI dev tools bury, with a dry-run, an undo and an audit log. Free.">
 <meta name="twitter:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <link rel="canonical" href="https://aurumcapital128-commits.github.io/broom-site/">
 
@@ -48,9 +48,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    background:
-      radial-gradient(1100px 620px at 82% -8%, rgba(61,220,151,0.09), transparent 60%),
-      var(--bg);
+    background: var(--bg);
     color: var(--text);
     font-family: var(--sans);
     font-size: 17px;
@@ -103,20 +101,8 @@
   /* ---------- Hero ---------- */
   header.hero { padding: 76px 0 8px; }
   .eyebrow-line {
-    display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--mono); font-size: 13px; color: var(--muted);
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 6px 12px; border-radius: 100px; margin-bottom: 28px;
-  }
-  .eyebrow-line .pulse {
-    width: 6px; height: 6px; border-radius: 50%; background: var(--mint);
-    box-shadow: 0 0 0 0 rgba(61,220,151,0.6);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(61,220,151,0.5); }
-    70% { box-shadow: 0 0 0 7px rgba(61,220,151,0); }
-    100% { box-shadow: 0 0 0 0 rgba(61,220,151,0); }
+    margin-bottom: 26px;
   }
   h1 {
     font-family: var(--display);
@@ -126,7 +112,7 @@
     letter-spacing: -0.01em;
     max-width: 17ch;
   }
-  h1 .accent { color: var(--mint); font-style: italic; }
+  h1 .accent { color: var(--mint); }
   .sub {
     margin-top: 22px;
     max-width: 54ch;
@@ -195,16 +181,6 @@
   .t-note { color: var(--muted); }
   .t-amber { color: var(--amber); }
   .t-total { color: var(--text); font-weight: 600; }
-  .cursor {
-    display: inline-block; width: 8px; height: 16px;
-    background: var(--mint); vertical-align: -2px;
-    animation: blink 1s steps(1) infinite;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) {
-    .cursor { animation: none; }
-    .eyebrow-line .pulse { animation: none; }
-  }
 
   /* ---------- Sections ---------- */
   section { padding: 84px 0 0; }
@@ -220,9 +196,6 @@
   .lede { margin-top: 16px; color: var(--muted); max-width: 60ch; font-size: 17px; }
   .lede strong { color: var(--text); }
 
-  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.in { opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
   /* ---------- How it works (steps = guarantees, one grid, zero repetition) ---------- */
   .steps { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -319,11 +292,6 @@
     padding: 38px 34px;
     position: relative; overflow: hidden;
   }
-  .cta-box::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(500px 260px at 15% -20%, rgba(61,220,151,0.14), transparent 65%);
-    pointer-events: none;
-  }
   .cta-box h2 { max-width: none; }
   form { margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap; position: relative; }
   input[type="email"] {
@@ -370,9 +338,9 @@
 
 <main>
 <header class="hero wrap">
-  <div class="eyebrow-line"><span class="pulse"></span> For devs running Claude Code, Docker, WSL2, local models — or agents overnight</div>
+  <div class="eyebrow-line">For devs running Claude Code, Docker, WSL2, local models, or agents overnight</div>
   <h1>Your AI agents are filling your disk.<br><span class="accent">Broom gets it back.</span></h1>
-  <p class="sub">Claude Code transcripts, Docker layers, WSL2 disks that never shrink, Ollama and LM Studio models cached three times over — Storage Sense can't see any of it. Broom finds it, explains it, and gets it back, with a real undo button.</p>
+  <p class="sub">Claude Code keeps every transcript, Docker keeps every layer, WSL2 disks never shrink, and Ollama and LM Studio cache the same models twice. Storage Sense can't see any of it. Broom finds it, explains what each thing is, and cleans it with a real undo button.</p>
 
   <div class="hero-ctas">
     <a href="#waitlist" class="btn btn-primary">Get early access →</a>
@@ -380,49 +348,49 @@
   </div>
   <p class="hero-fine">Free forever for manual cleanup · <b>$39/yr</b> only for the 24/7 monitor · no credit card to join</p>
 
-  <div class="term reveal" aria-label="Broom scan demo">
+  <div class="term" aria-label="Broom scan demo">
     <div class="term-bar">
       <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      <span class="term-title">broom scan — real output, run this week</span>
+      <span class="term-title">broom scan · output from our own dev machine</span>
     </div>
-    <div class="term-body" id="term"><span class="t-prompt">$</span> <span class="t-cmd"></span><span class="cursor" id="cur"></span></div>
+    <div class="term-body" id="term"><span class="t-prompt">$</span> <span class="t-cmd">broom scan</span></div>
   </div>
 
-  <div class="proof-strip reveal">
+  <div class="proof-strip">
     <div class="proof-pill">
       <div class="proof-num">12.8 GB</div>
-      <div class="proof-label">found in one scan, real dev machine — not a mockup</div>
+      <div class="proof-label">found in a single scan of our own dev machine</div>
     </div>
     <div class="proof-pill">
       <div class="proof-num"><a href="guide-9-places.html#p3">3.6 → 1.4 GB</a></div>
-      <div class="proof-label">an actual WSL2 disk, compacted end-to-end. Nobody else does this — <a href="guide-9-places.html#p3">see how</a>.</div>
+      <div class="proof-label">a real WSL2 disk, compacted end to end (<a href="guide-9-places.html#p3">see how</a>)</div>
     </div>
     <div class="proof-pill">
       <div class="proof-num"><a href="https://github.com/anthropics/claude-code/issues/24207" target="_blank" rel="noopener">#24207</a></div>
-      <div class="proof-label">same pain, 100–300 GB reported by other developers</div>
+      <div class="proof-label">other developers report 100–300 GB of the same problem</div>
     </div>
   </div>
 </header>
 
-<section class="wrap reveal" id="guarantees">
+<section class="wrap" id="guarantees">
   <div class="eyebrow">How it works</div>
-  <h2>Three steps. Nothing happens without your yes.</h2>
+  <h2>You review the plan before anything gets deleted</h2>
   <div class="steps">
     <div class="step">
       <div class="step-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </div>
       <div class="step-n">01 — SCAN</div>
-      <h3>Deterministic, not AI-guessed</h3>
-      <p>Known paths, age, size, and orphan-detection rules read your disk. <b>No LLM ever decides what's safe</b> — every finding shows the exact rule that flagged it.</p>
+      <h3>Deterministic scanning</h3>
+      <p>Broom classifies files using fixed rules based on known paths, age and size. No LLM ever decides what's safe to delete, and every finding shows the exact rule that flagged it.</p>
     </div>
     <div class="step">
       <div class="step-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
       </div>
       <div class="step-n">02 — REVIEW</div>
-      <h3>Nothing moves without you</h3>
-      <p><b>Dry-run shows the exact plan</b> before anything happens. Your settings, skills, and memory are vetoed automatically — no exceptions.</p>
+      <h3>You approve the plan first</h3>
+      <p>A dry-run shows exactly what would happen before anything does. Your settings, skills and memory are always excluded automatically.</p>
     </div>
     <div class="step">
       <div class="step-icon">
@@ -430,15 +398,15 @@
       </div>
       <div class="step-n">03 — RECLAIM</div>
       <h3>Undo for 7 days, logged forever</h3>
-      <p>Files move to Broom's own trash, not <code style="font-family:var(--mono)">rm</code>. One command restores everything byte-for-byte, and <b>every move is logged</b> — ask <code style="font-family:var(--mono)">broom explain</code>, anytime.</p>
+      <p>Files go to Broom's own trash instead of being deleted outright. One command restores everything, and you can ask <code style="font-family:var(--mono)">broom explain</code> about any past action at any time.</p>
     </div>
   </div>
 </section>
 
-<section class="wrap reveal" id="compare">
+<section class="wrap" id="compare">
   <div class="eyebrow">Not another "PC cleaner"</div>
-  <h2>The cleaner category earned its bad reputation. This is the opposite of it.</h2>
-  <p class="lede">Fake urgency, red alerts, registry snake oil — that's the playbook Broom refuses to run. <strong>If your machine is clean, it says so, and asks you for nothing.</strong></p>
+  <h2>Cleaner apps earned their bad reputation. Here's what Broom does differently.</h2>
+  <p class="lede">No fake urgency, no red alerts, no registry snake oil. If your machine is clean, Broom says so and asks you for nothing.</p>
   <div class="cmp-wrap">
     <table class="cmp">
       <thead>
@@ -479,10 +447,10 @@
   <p class="next-cta"><a href="#waitlist">→ Get early access</a></p>
 </section>
 
-<section class="wrap reveal" id="pricing">
+<section class="wrap" id="pricing">
   <div class="eyebrow">Pricing</div>
-  <h2>Free does real work. Pro is optional.</h2>
-  <p class="lede">No feature-gating basic hygiene behind a paywall. Pro is for people who want Broom watching in the background — not for people who just want their disk back once.</p>
+  <h2>The free tier does the real work</h2>
+  <p class="lede">Basic disk hygiene is never behind a paywall. Pro exists for people who want Broom watching in the background, and for nobody else.</p>
   <div class="pricing">
     <div class="price-card">
       <div class="price-name">Free</div>
@@ -493,7 +461,7 @@
         <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Manual cleanup with <b>7-day undo</b></li>
         <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Full audit trail</li>
       </ul>
-      <div class="price-tag">No trial. No time limit. This is the real product.</div>
+      <div class="price-tag">No trial and no time limit. This is the real product.</div>
     </div>
     <div class="price-card pro">
       <div class="price-name">Pro</div>
@@ -511,24 +479,24 @@
   <p class="next-cta"><a href="#waitlist">→ Join the waitlist, get Pro free for a year</a></p>
 </section>
 
-<section class="wrap reveal" id="hiding">
+<section class="wrap" id="hiding">
   <div class="eyebrow">The free guide</div>
   <h2>9 places your agents hide gigabytes</h2>
-  <p class="lede">Exact paths, official cleanup commands, no purchase required. Two, free right now:</p>
+  <p class="lede">The exact paths and the official cleanup commands, with no purchase and no email required. Here are two of the nine:</p>
   <div class="hiding">
-    <div class="hide-row"><code>ext4.vhdx</code><span>WSL2/Docker virtual disks grow forever and <b>never shrink on their own</b> — deleting files inside doesn't return space to Windows.</span></div>
-    <div class="hide-row"><code>~/.ollama · ~/.cache/huggingface</code><span>The same model, stored <b>2–3 times</b> by different tools. 8 GB per duplicate is normal.</span></div>
+    <div class="hide-row"><code>ext4.vhdx</code><span>WSL2 and Docker virtual disks grow forever and <b>never shrink on their own</b>. Deleting files inside doesn't return the space to Windows.</span></div>
+    <div class="hide-row"><code>~/.ollama · ~/.cache/huggingface</code><span>Different tools store the same model two or three times. 8 GB per duplicate is normal.</span></div>
   </div>
-  <p class="lede guide-cta"><a href="guide-9-places.html">→ Read all 9, free, no email needed</a></p>
+  <p class="lede guide-cta"><a href="guide-9-places.html">→ Read the full guide</a></p>
 </section>
 
-<section class="wrap reveal" id="faq">
+<section class="wrap" id="faq">
   <div class="eyebrow">Questions</div>
   <h2>Before you hand Broom your disk</h2>
   <div class="faq">
     <details>
       <summary>Does an AI decide what gets deleted? <span class="chev">+</span></summary>
-      <p>No. Classification is 100% deterministic — known paths, age, size, and orphan-detection rules. An LLM is never in the delete path; at most it drafts a plain-language explanation of a decision a rule already made.</p>
+      <p>No. Classification uses deterministic rules based on known paths, age and size. An LLM is never in the delete path. At most, it drafts a plain-language explanation of a decision a rule already made.</p>
     </details>
     <details>
       <summary>What if Broom is wrong about something? <span class="chev">+</span></summary>
@@ -536,20 +504,20 @@
     </details>
     <details>
       <summary>Can Broom run while my agents are working? <span class="chev">+</span></summary>
-      <p>That's exactly what the Pro monitor is for: it watches disk pressure in the background and warns you <b style="color:var(--text)">before</b> a long overnight run hits a full disk and dies. Cleanup itself never happens behind your back — it only runs when you (or a schedule you set) trigger it, against a plan you can dry-run first.</p>
+      <p>That's what the Pro monitor is for: it watches disk pressure in the background and warns you before a long overnight run hits a full disk and dies. Cleanup itself never happens behind your back. It only runs when you, or a schedule you set, trigger it, and always against a plan you can dry-run first.</p>
     </details>
     <details>
       <summary>Do you collect telemetry? <span class="chev">+</span></summary>
-      <p>Zero, by default. No usage data leaves your machine unless you explicitly opt in to something we document first. This is a disk tool for people who already don't trust software with their files.</p>
+      <p>None by default. No usage data leaves your machine unless you explicitly opt in to something we document first. This is a disk tool for people who already don't trust software with their files.</p>
     </details>
     <details>
       <summary>What platforms are supported? <span class="chev">+</span></summary>
-      <p>Windows first — including native WSL2 virtual-disk compaction — because it's the least-served platform for this problem. macOS is next in line, not an afterthought: <b>join now and you help decide when</b>. Linux devs already live in a terminal; a CLI works fine for you today.</p>
+      <p>Windows first, including native WSL2 virtual-disk compaction, because it's the least-served platform for this problem. macOS is next in line, and waitlist signups are how we decide how soon. Linux devs already live in a terminal, so for them the CLI version will do the job.</p>
     </details>
   </div>
 </section>
 
-<section class="wrap reveal">
+<section class="wrap">
   <div class="cta-box" id="waitlist">
     <div class="eyebrow">Early access · Windows &amp; macOS</div>
     <h2>Join the waitlist</h2>
@@ -560,7 +528,7 @@
       <input type="email" name="email" required placeholder="you@yourmachine.dev" aria-label="Email address">
       <button type="submit" class="btn btn-primary">Get early access</button>
     </form>
-    <p class="fine" id="waitlist-fine">No spam. One email when the beta opens, one when we launch. That's it.</p>
+    <p class="fine" id="waitlist-fine">We only send two emails: one when the beta opens and one when we launch.</p>
   </div>
 </section>
 </main>
@@ -576,20 +544,16 @@
       <a href="mailto:aurumcapital128@gmail.com?subject=Broom">Contact</a>
     </div>
   </div>
-  <p class="slogan"><b>The Broom promise:</b> we tell you the truth about your disk — even when the truth is that you don't need us today.</p>
-  <p class="footprint">Built the way it cleans: one human decision, one execution, always logged.</p>
+  <p class="slogan"><b>The Broom promise:</b> we tell you the truth about your disk, even when the truth is that you don't need us today.</p>
 </footer>
 
 <script>
 (function () {
   var term = document.getElementById('term');
-  var cur = document.getElementById('cur');
-  var cmdSpan = term.querySelector('.t-cmd');
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Salida REAL de `broom scan` en la máquina de desarrollo (Sesión 3,
   // dogfooding tras el fix del falso positivo). Rutas genéricas; bytes reales.
-  var cmd = 'broom scan';
+  // Render estático, sin animación de tecleo: se lee como un pantallazo pegado.
   var lines = [
     ['html', '<span class="t-total">12.8 GB reclaimable in 8 artifacts</span>\n\n'],
     ['html', '  <span class="t-rule">[models.lmstudio.stale60d]</span>  <span class="t-size">8.2 GB</span>  ~/.lmstudio/models/lmstudio-community/gemma-3-12b\n  <span class="t-note">376 days untouched. Reload anytime with one download.</span>\n\n'],
@@ -600,35 +564,9 @@
     ['html', '<span class="t-note">Next: `broom clean` (dry-run) → `broom clean --commit` → undo any time for 7 days.</span>']
   ];
 
-  function renderAll() {
-    cmdSpan.textContent = cmd;
-    var html = term.innerHTML.replace(/<span class="cursor"[^>]*><\/span>/, '');
-    lines.forEach(function (l) { html += l[1]; });
-    term.innerHTML = html;
-  }
-
-  if (reduced) { renderAll(); }
-  else {
-    var i = 0;
-    function typeCmd() {
-      if (i < cmd.length) {
-        cmdSpan.textContent += cmd[i++];
-        setTimeout(typeCmd, 55);
-      } else {
-        setTimeout(printLines, 500);
-      }
-    }
-    var j = 0;
-    function printLines() {
-      if (j === 0) { cur.remove(); term.innerHTML += '\n'; }
-      if (j < lines.length) {
-        term.innerHTML += lines[j][1];
-        j++;
-        setTimeout(printLines, j === 1 ? 620 : 460);
-      }
-    }
-    setTimeout(typeCmd, 500);
-  }
+  var html = term.innerHTML + '\n';
+  lines.forEach(function (l) { html += l[1]; });
+  term.innerHTML = html;
 })();
 
 (function () {
@@ -671,17 +609,6 @@
       }
     });
   });
-})();
-
-(function () {
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced || !('IntersectionObserver' in window)) return;
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 })();
 </script>
 </body>

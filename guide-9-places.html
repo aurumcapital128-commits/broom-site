@@ -8,7 +8,7 @@
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="The 9 places Claude Code, Docker & WSL2 hide your gigabytes">
-<meta property="og:description" content="Real paths, official cleanup commands, no purchase required. The free field guide from Broom.">
+<meta property="og:description" content="The real paths and the official cleanup commands, with nothing to buy. A free field guide from Broom.">
 <!-- Rutas ABSOLUTAS: X/Twitter y varios scrapers no resuelven og:image relativo -->
 <meta property="og:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -110,7 +110,7 @@
 <header class="wrap">
   <div class="brand"><a href="index.html" style="color:inherit"><b>broom</b></a> · disk hygiene for machines that run AI agents · <a href="index.html">← back to broom</a></div>
   <h1>The 9 places Claude Code, Docker &amp; WSL2 <span class="accent">hide your gigabytes</span></h1>
-  <p class="standfirst">Every path in this guide is real, every cleanup command is the official one, and everything here can be done by hand for free. <b>You don't need to buy anything to use this guide</b> — that's the point. Broom just does it for you, with seatbelts.</p>
+  <p class="standfirst">Every path in this guide is real, every cleanup command is the official one, and everything here can be done by hand for free. <b>You don't need to buy anything to use this guide.</b> Broom just automates the same work, with seatbelts.</p>
 
   <nav class="toc" aria-label="Contents">
     <a href="#p1"><span class="n">1</span>~/.claude/projects — agent transcripts</a><br>
@@ -172,7 +172,7 @@ compact vdisk
 detach vdisk
 exit</pre>
   <div class="warn"><b>CAREFUL:</b> never delete a .vhdx — it IS your Linux system, not a cache. Compact only with WSL fully shut down. Docker Desktop has its own path: Settings → Resources → Disk usage, or clean inside Docker first (next section) so compaction has something to reclaim.</div>
-  <div class="mini-cta"><b>Broom automates this exact dance</b> — shutdown, compact, verify, every step logged. On our own dev machine it took a real WSL2 disk from 3.6 to 1.4 GB. <a href="index.html#waitlist">→ Get early access, free</a></div>
+  <div class="mini-cta"><b>Broom automates this whole procedure</b> (shutdown, compact, verify) and logs every step. On our own dev machine it took a real WSL2 disk from 3.6 to 1.4 GB. <a href="index.html#waitlist">→ Get early access, free</a></div>
 </section>
 
 <section class="wrap" id="p4">
@@ -249,8 +249,8 @@ Get-ChildItem "$env:LOCALAPPDATA\Packages" -Recurse -Filter *.vhdx -ErrorAction 
 
 <section class="wrap">
   <div class="cta">
-    <h2>Or let Broom do all nine — with seatbelts</h2>
-    <p style="margin-top:12px">Everything above, automated: deterministic detection, dry-run by default, every deletion goes to a restorable trash with 7-day undo, and an audit log of every byte. <b>If your machine is clean, Broom says so and asks you for nothing.</b></p>
+    <h2>Or let Broom do all nine, with seatbelts</h2>
+    <p style="margin-top:12px">Everything above, automated: deterministic detection, a dry-run by default, deletions that go to a restorable trash with 7-day undo, and an audit log of every byte. If your machine is clean, Broom says so and asks you for nothing.</p>
     <p style="margin-top:14px"><a href="index.html#waitlist">→ Join the waitlist</a></p>
   </div>
 </section>
