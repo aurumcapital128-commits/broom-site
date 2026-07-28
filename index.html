@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Broom — Your AI agents are filling your disk. Get it back.</title>
-<meta name="description" content="Broom finds the gigabytes that Claude Code, Docker, WSL2 and local models bury where Storage Sense can't see, and reclaims them with a dry-run, an undo button and a full audit log. Free for manual cleanup.">
+<title>Broom — The watchdog that keeps your AI agent runs from dying on a full disk</title>
+<meta name="description" content="Agent background tasks have filled disks with up to 1.4 TB of silent output, mid-run and with no warning. Broom watches your disk's growth rate, warns before a run dies, and cleans agent junk with a real undo. Free for manual cleanup.">
 
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Your AI agents are filling your disk. Broom gets it back.">
-<meta property="og:description" content="Finds and reclaims the disk space that AI dev tools bury, with a dry-run, a real undo and a full audit log. Free for manual cleanup.">
+<meta property="og:title" content="Your AI agents are filling your disk. Broom keeps that from killing your runs.">
+<meta property="og:description" content="A native watchdog that warns before an overnight run dies on a full disk, plus cleanup with a dry-run, a real undo and a full audit log. Free for manual cleanup.">
 <!-- Rutas ABSOLUTAS: X/Twitter y varios scrapers no resuelven og:image relativo -->
 <meta property="og:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://aurumcapital128-commits.github.io/broom-site/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Your AI agents are filling your disk. Broom gets it back.">
-<meta name="twitter:description" content="Finds and reclaims the disk space AI dev tools bury, with a dry-run, an undo and an audit log. Free.">
+<meta name="twitter:title" content="Your AI agents are filling your disk. Broom keeps that from killing your runs.">
+<meta name="twitter:description" content="A native watchdog that warns before a run dies on a full disk, plus cleanup with dry-run, undo and an audit log. Free.">
 <meta name="twitter:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <link rel="canonical" href="https://aurumcapital128-commits.github.io/broom-site/">
 
@@ -330,7 +330,7 @@
   <div class="nav-inner">
     <a href="#" class="logo"><span class="mark">$</span>broom</a>
     <div class="nav-links">
-      <a href="#guarantees">How it works</a>
+      <a href="#watchdog">How it works</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="#waitlist" class="nav-cta">Get early access</a>
@@ -341,8 +341,8 @@
 <main>
 <header class="hero wrap">
   <div class="eyebrow-line">For devs running Claude Code, Docker, WSL2, local models, or agents overnight</div>
-  <h1>Your AI agents are filling your disk.<br><span class="accent">Broom gets it back.</span></h1>
-  <p class="sub">Claude Code keeps every transcript, Docker keeps every layer, WSL2 disks never shrink, and Ollama and LM Studio cache the same models twice. Storage Sense can't see any of it. Broom finds it, explains what each thing is, and cleans it with a real undo button.</p>
+  <h1>Your AI agents are filling your disk.<br><span class="accent">Broom keeps that from killing your runs.</span></h1>
+  <p class="sub">Agent background tasks have filled real disks with 278 GB to 1.4 TB of output, silently, mid-run, with no official fix. Broom is a native watchdog: it measures how fast your disk is filling, warns you before an overnight run hits the wall, and cleans the junk with a real undo button.</p>
 
   <div class="hero-ctas">
     <a href="#waitlist" class="btn btn-primary">Get early access →</a>
@@ -368,14 +368,47 @@
       <div class="proof-label">a real WSL2 disk, compacted end to end (<a href="guide-9-places.html#p3">see how</a>)</div>
     </div>
     <div class="proof-pill">
-      <div class="proof-num"><a href="https://github.com/anthropics/claude-code/issues/24207" target="_blank" rel="noopener">#24207</a></div>
-      <div class="proof-label">other developers report 100–300 GB of the same problem</div>
+      <div class="proof-num"><a href="https://github.com/anthropics/claude-code/issues/26911" target="_blank" rel="noopener">537 GB</a></div>
+      <div class="proof-label">from one agent session; six disk-full emergencies in 30 days, publicly reported (<a href="https://github.com/anthropics/claude-code/issues/26911" target="_blank" rel="noopener">#26911</a>)</div>
     </div>
   </div>
 </header>
 
+<section class="wrap" id="watchdog">
+  <div class="eyebrow">The watchdog</div>
+  <h2>A skill can't watch your disk at 3 AM. A native process can.</h2>
+  <p class="lede">Free cleanup scripts and agent skills only run when something invokes them, they burn tokens while they do, and when the disk fills and the agent dies, they die with it. Broom's watchdog is a native process, so it costs zero tokens and it keeps standing when everything else falls over.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="step-n">01 — MEASURE</div>
+      <h3>It watches the rate, not just the number</h3>
+      <p>Free space per volume, and how fast it is dropping. A disk at 40% that is losing 100 GB an hour is an emergency; a disk at 15% that hasn't moved in a week is not.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="step-n">02 — WARN EARLY</div>
+      <h3>Before the wall, not after</h3>
+      <p>If the current rate would cross the critical threshold in under two hours, you hear about it while the run can still be saved. The documented failures were silent; this one is not.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <div class="step-n">03 — KEEP SCORE</div>
+      <h3>Every warning is counted</h3>
+      <p>Warnings are logged and persist across runs, so after a month you can see exactly what the watchdog caught. It observes and warns by default; it never cleans anything without you.</p>
+    </div>
+  </div>
+  <p class="next-cta"><a href="#waitlist">→ Get early access</a></p>
+</section>
+
 <section class="wrap" id="guarantees">
-  <div class="eyebrow">How it works</div>
+  <div class="eyebrow">The cleanup, when you ask for it</div>
   <h2>You review the plan before anything gets deleted</h2>
   <div class="steps">
     <div class="step">
@@ -483,9 +516,10 @@
 
 <section class="wrap" id="hiding">
   <div class="eyebrow">The free guide</div>
-  <h2>9 places your agents hide gigabytes</h2>
-  <p class="lede">The exact paths and the official cleanup commands, with no purchase and no email required. Here are two of the nine:</p>
+  <h2>10 places your agents hide gigabytes</h2>
+  <p class="lede">The exact paths and the official cleanup commands, with no purchase and no email required. Here are three of the ten:</p>
   <div class="hiding">
+    <div class="hide-row"><code>/tmp/claude-*</code><span>Background-task output with <b>no size cap and no cleanup</b>. Public reports range from 278 GB to 1.4 TB, silently, mid-run.</span></div>
     <div class="hide-row"><code>ext4.vhdx</code><span>WSL2 and Docker virtual disks grow forever and <b>never shrink on their own</b>. Deleting files inside doesn't return the space to Windows.</span></div>
     <div class="hide-row"><code>~/.ollama · ~/.cache/huggingface</code><span>Different tools store the same model two or three times. 8 GB per duplicate is normal.</span></div>
   </div>

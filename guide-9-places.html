@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The 9 places Claude Code, Docker &amp; WSL2 hide your gigabytes — Broom</title>
+<title>The 10 places Claude Code, Docker &amp; WSL2 hide your gigabytes — Broom</title>
 <meta name="description" content="A field guide with the exact paths where AI coding agents, Docker, WSL2 and local models bury disk space, and the safe way to clean each one by hand. Nothing to buy.">
 
 <meta property="og:type" content="article">
-<meta property="og:title" content="The 9 places Claude Code, Docker & WSL2 hide your gigabytes">
+<meta property="og:title" content="The 10 places Claude Code, Docker & WSL2 hide your gigabytes">
 <meta property="og:description" content="The real paths and the official cleanup commands, with nothing to buy. A free field guide from Broom.">
 <!-- Rutas ABSOLUTAS: X/Twitter y varios scrapers no resuelven og:image relativo -->
 <meta property="og:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
@@ -15,7 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://aurumcapital128-commits.github.io/broom-site/guide-9-places.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The 9 places Claude Code, Docker & WSL2 hide your gigabytes">
+<meta name="twitter:title" content="The 10 places Claude Code, Docker & WSL2 hide your gigabytes">
 <meta name="twitter:image" content="https://aurumcapital128-commits.github.io/broom-site/og-card.png">
 <link rel="canonical" href="https://aurumcapital128-commits.github.io/broom-site/guide-9-places.html">
 
@@ -109,7 +109,7 @@
 
 <header class="wrap">
   <div class="brand"><a href="index.html" style="color:inherit"><b>broom</b></a> · disk hygiene for machines that run AI agents · <a href="index.html">← back to broom</a></div>
-  <h1>The 9 places Claude Code, Docker &amp; WSL2 <span class="accent">hide your gigabytes</span></h1>
+  <h1>The 10 places Claude Code, Docker &amp; WSL2 <span class="accent">hide your gigabytes</span></h1>
   <p class="standfirst">Every path in this guide is real, every cleanup command is the official one, and everything here can be done by hand for free. <b>You don't need to buy anything to use this guide.</b> Broom just automates the same work, with seatbelts.</p>
 
   <nav class="toc" aria-label="Contents">
@@ -121,7 +121,8 @@
     <a href="#p6"><span class="n">6</span>Package manager caches (npm, pip, yarn)</a><br>
     <a href="#p7"><span class="n">7</span>Ollama models</a><br>
     <a href="#p8"><span class="n">8</span>HuggingFace hub cache</a><br>
-    <a href="#p9"><span class="n">9</span>LM Studio models &amp; desktop-agent VMs</a>
+    <a href="#p9"><span class="n">9</span>LM Studio models &amp; desktop-agent VMs</a><br>
+    <a href="#p10"><span class="n">10</span>/tmp/claude-* — the silent disk killer</a>
   </nav>
 </header>
 
@@ -247,9 +248,28 @@ Get-ChildItem "$env:LOCALAPPDATA\Packages" -Recurse -Filter *.vhdx -ErrorAction 
   <div class="warn"><b>IN LM STUDIO, SKIP:</b> credentials/, conversations/ and config folders — only <span style="font-family:var(--mono)">models/</span> holds the gigabytes, and only models are safe to remove.</div>
 </section>
 
+<section class="wrap" id="p10">
+  <div class="n-big">10</div>
+  <h2><code>/tmp/claude-*</code> — the silent disk killer</h2>
+  <p class="why">Claude Code writes background-task output under the system temp dir (<span style="font-family:var(--mono)">/private/tmp/claude-&lt;uid&gt;/&lt;session&gt;/tasks/*.output</span> on macOS/Linux, <span style="font-family:var(--mono)">%TEMP%\claude\</span> on Windows) with <b>no size cap, no expiry and no cleanup</b>. Public reports: <a href="https://github.com/anthropics/claude-code/issues/41737" target="_blank" rel="noopener">278 GB in minutes</a>, <a href="https://github.com/anthropics/claude-code/issues/26911" target="_blank" rel="noopener">537 GB from one session with six disk-full emergencies in 30 days</a>, and <a href="https://github.com/anthropics/claude-code/issues/35121" target="_blank" rel="noopener">a single file that reached 1.4 TB</a>. The failure is silent: no warnings, no errors, and on macOS these files survive reboots.</p>
+  <div class="label">Check the damage</div>
+  <pre><span class="c"># macOS / Linux</span>
+du -sh /tmp/claude-* /private/tmp/claude-* 2>/dev/null
+
+<span class="c"># Windows (PowerShell)</span>
+"{0:N1} GB" -f ((Get-ChildItem $env:TEMP\claude* -Recurse -File -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum/1GB)</pre>
+  <div class="label">Clean it safely (by hand)</div>
+  <pre><span class="c"># Only sessions that are OVER. List first, look at the dates:</span>
+ls -lt /tmp/claude-*/
+<span class="c"># Then delete session folders older than a couple of days:</span>
+rm -rf /tmp/claude-&lt;uid&gt;/&lt;old-session-id&gt;</pre>
+  <div class="warn"><b>CAREFUL:</b> an <span style="font-family:var(--mono)">.output</span> file that belongs to a RUNNING task is exactly the file you must not touch. If an agent session is active, leave its folder alone. To stop the bleeding entirely you can set <span style="font-family:var(--mono)">CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1</span>, at the cost of losing background tasks.</div>
+  <div class="mini-cta"><b>Broom covers this from both ends:</b> it detects dead agent sessions in temp automatically, and its watchdog measures how fast your disk is filling so a runaway task warns you before the run dies. <a href="index.html#waitlist">→ Get early access, free</a></div>
+</section>
+
 <section class="wrap">
   <div class="cta">
-    <h2>Or let Broom do all nine, with seatbelts</h2>
+    <h2>Or let Broom do all ten, with seatbelts</h2>
     <p style="margin-top:12px">Everything above, automated: deterministic detection, a dry-run by default, deletions that go to a restorable trash with 7-day undo, and an audit log of every byte. If your machine is clean, Broom says so and asks you for nothing.</p>
     <p style="margin-top:14px"><a href="index.html#waitlist">→ Join the waitlist</a></p>
   </div>
